@@ -1,0 +1,17 @@
+# Import all packages listed as Imports or Depends
+importFrom("stats", "binomial", "coef", "glm", "predict", "rbinom",
+           "rnorm", "runif", "vcov")
+importFrom("stats", "as.formula", "complete.cases", "stepfun")
+importFrom("twang", "ps", "bal.table")
+import(ggplot2)
+import(graphics)
+import(Rcpp)
+import(survival)
+import(fastGHQuad)
+S3method(plot,PS)
+export(cif_est_usual, doPS, em_illness_death_phmm_weight, 
+       get_hazard_offset_weights, get_hazard, 
+       initial_fit_em_weights,initial_lambda_em,
+       OUT_em_weights, plot.PS,
+       sim_cox_msm_semicmrsk, usual_illness_death_weight,
+       var_em_illness_death_phmm)
