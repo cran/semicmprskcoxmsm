@@ -141,7 +141,7 @@ ps1 <- doPS(data = data_test,
             Trt = "A",
             Trt.name = 1,
             VARS. = vars,
-            logistic = TRUE)
+            logistic = TRUE,w=NULL)
 w <- ps1$Data$ipw_ate_stab
 
 ### Fit the General Markov model

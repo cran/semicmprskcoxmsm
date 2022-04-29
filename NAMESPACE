@@ -2,6 +2,7 @@
 importFrom("stats", "binomial", "coef", "glm", "predict", "rbinom",
            "rnorm", "runif", "vcov")
 importFrom("stats", "as.formula", "complete.cases", "stepfun")
+importFrom("stats", "rexp")
 importFrom("twang", "ps", "bal.table")
 import(ggplot2)
 import(graphics)

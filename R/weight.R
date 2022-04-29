@@ -5,7 +5,8 @@ doPS <- function(data,
                  Trt,
                  Trt.name,
                  VARS.,
-                 logistic = FALSE) {
+                 logistic = FALSE,
+                 w = NULL) {
 
   ## exclude all the missing value for the covariates
   tDat <- data[complete.cases(data[, c(Trt, VARS.)]), ]
@@ -34,20 +35,41 @@ doPS <- function(data,
   tDat[, "Trt"] <- tDat[, Trt]
 
   if(logistic){
-    fit.1 <- glm(as.formula(paste(GROUP, ' ~', paste0(VARS., collapse = '+'))),
-                 data = tDat,
-                 family = binomial(link = "logit"))
+
+    if(is.null(w)){
+      fit.1 <- glm(as.formula(paste(GROUP, ' ~', paste0(VARS., collapse = '+'))),
+                   data = tDat,
+                   family = binomial(link = "logit"))
+    }else{
+      fit.1 <- glm(as.formula(paste(GROUP, ' ~', paste0(VARS., collapse = '+'))),
+                   data = tDat,
+                   family = binomial(link = "logit"),weights = w)
+    }
+
     ps.1 <- predict(fit.1,type = "response")
-  }else{
-    ps1 <- ps(as.formula(paste(GROUP, ' ~', paste0(VARS., collapse = '+'))),
-              data = tDat,
-              n.trees = 5000, interaction.depth = 2,
-              n.minobsinnode = 25,
-              shrinkage = 0.01, perm.test.iters = 0,
-              stop.method = c('ks.max'),
-              estimand = 'ATE', verbose = FALSE)
+
+   }else{
+
+    if(is.null(w)){
+      ps1 <- ps(as.formula(paste(GROUP, ' ~', paste0(VARS., collapse = '+'))),
+                data = tDat,
+                n.trees = 5000, interaction.depth = 2,
+                n.minobsinnode = 25,
+                shrinkage = 0.01, perm.test.iters = 0,
+                stop.method = c('ks.max'),
+                estimand = 'ATE', verbose = FALSE)
+    }else{
+      ps1 <- ps(as.formula(paste(GROUP, ' ~', paste0(VARS., collapse = '+'))),
+                data = tDat,
+                n.trees = 5000, interaction.depth = 2,
+                n.minobsinnode = 25,
+                shrinkage = 0.01, perm.test.iters = 0,
+                stop.method = c('ks.max'),
+                estimand = 'ATE', verbose = FALSE,sampw = w)
+    }
 
     ps.1 <- as.numeric(unlist(ps1$ps))
+
   }
 
   ## ATE

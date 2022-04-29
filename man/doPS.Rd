@@ -10,7 +10,7 @@ Generate the Inverse Probability Treatment Weights
 }
 
 \usage{
-doPS(data,Trt,Trt.name,VARS.,logistic = FALSE)
+doPS(data,Trt,Trt.name,VARS.,logistic = FALSE,w=NULL)
 }
 
 \arguments{
@@ -33,6 +33,10 @@ The vector of the name of potential confounding variables in the dataset.
 
 \item{logistic}{
 A logical value indicating whether use logistic regression (TRUE) or non-parametric boosted tree (FALSE).
+}
+
+\item{w}{
+Optional sampling weights.
 }
 
 }
@@ -86,6 +90,6 @@ ps1 <- doPS(data = data_test,
             Trt = "A",
             Trt.name = 1,
             VARS. = vars,
-            logistic = TRUE)
+            logistic = TRUE,w=NULL)
 w <- ps1$Data$ipw_ate_stab
 }
